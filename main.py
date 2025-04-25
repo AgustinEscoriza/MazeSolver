@@ -14,6 +14,15 @@ def main():
 
     maze = Maze(margin, margin, num_rows, num_cols, cell_size_x, cell_size_y, win)
 
+    print("Trying to solve")
+    solved = maze.solve()
+    print(f"Solved? {solved}")
+    if solved is True:
+        print("solved!")
+    else:
+        print("Fail!")
+
+
     win.wait_for_close()
 
 main()

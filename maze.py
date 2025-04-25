@@ -16,6 +16,7 @@ class Maze:
       ):
     if seed != None:
       seed = random.seed(seed) 
+    print(f"SEED NUMBER: {seed}")
     self._cells = []
     self._x1 = x1
     self._y1 = y1
@@ -27,6 +28,8 @@ class Maze:
     self._create_sells()
     self._break_entrance_and_exit()
     self._break_walls_r(0, 0)
+    self._reset_cells_visited()
+    self.solve()
 
   def _create_sells(self):
       for i in range(self._num_cols):
@@ -103,3 +106,65 @@ class Maze:
           self._cells[i][j - 1].has_bottom_wall = False
 
       self._break_walls_r(next_index[0], next_index[1])
+
+  def _reset_cells_visited(self):
+    for col in self._cells:
+      for cell in col:
+         cell.visited = False
+
+  def solve(self):
+    return self._solve_r(0, 0)
+  
+  def _solve_r(self, i, j):
+    self._animate()
+    self._cells[i][j].visited = True
+
+    if i == self._num_cols -1 and j == self._num_rows - 1:
+      print("good ending")
+      return True
+    
+    directions = [(-1, 0), (0, 1), (1, 0), (0, -1)]
+
+    for di, dj in directions:
+      next_i = i + di 
+      next_j = j + dj
+
+      if 0 <= next_i < self._num_cols and 0 <= next_j < self._num_rows:
+        if not self._cells[next_i][next_j].visited:
+          if di == 1 and dj == 0 and not self._cells[i][j].has_right_wall:
+            
+            self._cells[i][j].draw_move(self._cells[next_i][ next_j])
+            
+            if self._solve_r(next_i, next_j):
+                return True
+            
+            self._cells[next_i][ next_j].draw_move(self._cells[i][j], True)
+          
+          if di == -1 and dj == 0 and not self._cells[i][j].has_left_wall:
+            
+            self._cells[i][j].draw_move(self._cells[next_i][ next_j])
+            
+            if self._solve_r(next_i, next_j):
+                return True
+            
+            self._cells[next_i][ next_j].draw_move(self._cells[i][j], True)
+
+          if di == 0 and dj == 1 and not self._cells[i][j].has_bottom_wall:
+            
+            self._cells[i][j].draw_move(self._cells[next_i][ next_j])
+            
+            if self._solve_r(next_i, next_j):
+                return True
+            
+            self._cells[next_i][ next_j].draw_move(self._cells[i][j], True)
+          
+          if di == 0 and dj == -1 and not self._cells[i][j].has_top_wall:
+            
+            self._cells[i][j].draw_move(self._cells[next_i][ next_j])
+            
+            if self._solve_r(next_i, next_j):
+                return True
+            
+            self._cells[next_i][ next_j].draw_move(self._cells[i][j], True)
+
+    return False

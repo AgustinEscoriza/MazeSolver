@@ -3,7 +3,7 @@ from graphics import Line, Point
 
 
 class Cell:
-  def __init__(self, win):
+  def __init__(self, win=None):
     self.has_left_wall = True
     self.has_right_wall = True
     self.has_top_wall = True
@@ -40,8 +40,8 @@ class Cell:
       y_center = half_length + self._y1
 
       half_length2 = abs(to_cell._x1 - to_cell._x2) // 2
-      x_center2 = half_length + to_cell._x1
-      y_center2 = half_length + to_cell._y1
+      x_center2 = half_length2 + to_cell._x1
+      y_center2 = half_length2 + to_cell._y1
 
       fill_color = "red"
       if undo:

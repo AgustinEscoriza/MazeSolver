@@ -165,5 +165,4 @@ class Maze:
                 return True
             
             self._cells[next_i][ next_j].draw_move(self._cells[i][j], True)
-    print("not found")
     return False

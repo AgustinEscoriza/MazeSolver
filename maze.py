@@ -29,7 +29,6 @@ class Maze:
     self._break_entrance_and_exit()
     self._break_walls_r(0, 0)
     self._reset_cells_visited()
-    self.solve()
 
   def _create_sells(self):
       for i in range(self._num_cols):
@@ -166,5 +165,5 @@ class Maze:
                 return True
             
             self._cells[next_i][ next_j].draw_move(self._cells[i][j], True)
-
+    print("not found")
     return False
